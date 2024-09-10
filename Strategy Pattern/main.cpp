@@ -25,6 +25,15 @@ public:
     };
 };
 
+class FlyWithRocket : public IFlyBehaviour
+{
+public:
+    void fly()
+    {
+        cout << "Flying with rocket...\n";
+    }
+};
+
 class FlyNoWay : public IFlyBehaviour
 {
 public:
@@ -69,11 +78,20 @@ class Duck
     IQuackBehaviour *quackBehaviour;
 
 public:
-    Duck(IFlyBehaviour *fb, IQuackBehaviour *qck)
+    Duck() {};
+
+    // Behaviour Setters
+    void setFlyBehaviour(IFlyBehaviour *fb)
     {
         flyBehaviour = fb;
+    }
+
+    void setQuackBehaviour(IQuackBehaviour *qck)
+    {
         quackBehaviour = qck;
     }
+
+    // Behaviour definitions
     void performQuack()
     {
         quackBehaviour->quack();
@@ -89,7 +107,11 @@ public:
 class MallardDuck : public Duck
 {
 public:
-    MallardDuck() : Duck(new FlyWithWings(), new Quack()) {}
+    MallardDuck()
+    {
+        setFlyBehaviour(new FlyWithWings());
+        setQuackBehaviour(new Quack());
+    }
 
     void display()
     {
@@ -97,6 +119,35 @@ public:
     }
 };
 
+class RubberDuck : public Duck
+{
+public:
+    RubberDuck()
+    {
+        setFlyBehaviour(new FlyNoWay());
+        setQuackBehaviour(new Squeak());
+    }
+
+    void display()
+    {
+        cout << "Displaying rubber duck\n";
+    }
+};
+
+class ModelDuck : public Duck
+{
+public:
+    ModelDuck()
+    {
+        setFlyBehaviour(new FlyNoWay());
+        setQuackBehaviour(new Quack());
+    }
+
+    void display()
+    {
+        cout << "I am a model duck\n";
+    }
+};
 // main function
 int main()
 {
@@ -104,5 +155,21 @@ int main()
     md.display();
     md.performQuack();
     md.performFly();
+    cout << "\n";
+
+    RubberDuck rd;
+    rd.display();
+    rd.performQuack();
+    rd.performFly();
+    cout << "\n";
+
+    ModelDuck mod;
+    mod.display();
+    mod.performQuack();
+    mod.performFly();
+    // Changing ModelDuck flying behaviour during during runtime
+    mod.setFlyBehaviour(new FlyWithRocket());
+    mod.performFly();
+
     return 0;
 }
