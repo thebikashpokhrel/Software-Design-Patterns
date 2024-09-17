@@ -142,7 +142,7 @@ int main()
     heatIndexDisplay HIDisplay(weatherData);
 
     // Setting new measurements automatically notify observers and data is printed
-    weatherData->setMeasurements(20.4, 98.3, 70);
-    weatherData->setMeasurements(20.4, 98.3, 65);
+    weatherData->setMeasurements(20, 98.3, 70);
+    weatherData->setMeasurements(20.4, 9.3, 65);
     return 0;
 }
